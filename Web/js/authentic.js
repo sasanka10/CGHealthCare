@@ -29,30 +29,41 @@ function registerformValidation(userName,password,email,mobile,profession){
     console.log(userName);
     console.log(userName.length < 1);
     
-    if(userName.length < 1)
+    if(userName.length < 1){
         $errorList.push("Please enter User Name.  ");
-    if(password.length < 1)
+        return false;   
+    }else if(password.length < 1){
         $errorList.push("Please enter Password. <br/>");
-    if(email.length < 1)
+        return false;
+    }else if(email.length < 1){
         $errorList.push("Please enter Email. ");
-    if(mobile.length < 1)
+        return false;
+    }else if(mobile.length < 1){
         $errorList.push("  Please enter Mobile #. ");
-    if(profession.length < 1)
+        return false;
+    }else if(profession.length < 1){
         $errorList.push("Please Select Profession. ");
-    
+        return false;
+    }else {
+     return true;   
+    }
     $('#errorDisplay').html($errorList);
      $('#errorRBlock').css("visibility") == "visible";
     
 }
 function registerUser(userName,password,email,mobile,profession){
-    
-    if(registerformValidation(userName,password,email,mobile,profession)){
-
+    var formValidation = registerformValidation(userName,password,email,mobile,profession);
+    console.log(formValidation);
+    if(formValidation){
+var registerData = JSON.stringify( {"userName" : userName,"password" : password,"email" : email,"mobile" : mobile,"profession" : profession } );
+            console.log("data "+registerData);
         $.ajax({
             type: 'POST',
-            url: rootURL + '/authenticate/' + userName +'/'+password,
+            contentType: 'application/json',
+            url: rootURL+'/registerUser',
             dataType: "json",
-            success: function(data){
+            data:  registerData,
+            success: function(data, textStatus, jqXHR){
                 console.log('authentic success: ' + data);
                 var list = data == null ? [] : (data.user instanceof Array ? data.user : [data.user]);
                  if((list).length < 1 ){
@@ -69,8 +80,10 @@ function registerUser(userName,password,email,mobile,profession){
                 });
 
             },
-            error: function(data){
-               console.log("Error IS ......".data);
+            error: function(jqXHR, textStatus, errorThrown){
+               console.log("Error IS ......".textStatus);
+                console.log("Error IS ......".jqXHR);
+                console.log("Error IS ......".errorThrown);
             }
         });
     }
