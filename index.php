@@ -57,7 +57,7 @@ function registerUser(){
     try {
             $request = Slim::getInstance()->request();
             $user = json_decode($request->getBody());
-  $sql = "INSERT INTO users (username, password, email, mobile, profession,address) VALUES (:userName, :password, :email, :mobile, :profession,:address)";
+  $sql = "INSERT INTO users (username, password, email, mobile, profession,address,name) VALUES (:userName, :password, :email, :mobile, :profession,:address,:name)";
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
 		$stmt->bindParam("userName", $user->userName);
@@ -66,6 +66,7 @@ function registerUser(){
 		$stmt->bindParam("mobile", $user->mobile);
 		$stmt->bindParam("profession", $user->profession);
         $stmt->bindParam("address", $user->address);
+         $stmt->bindParam("name", $user->name);
 		$stmt->execute();
         //echo "Last Insert Id".$db->lastInsertId();
 		$user->id = $db->lastInsertId();

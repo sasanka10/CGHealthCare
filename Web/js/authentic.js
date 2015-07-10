@@ -23,7 +23,7 @@ $(document).ready(function(){
              $("#emailErrmsg").html("Invalid Email Address").show();
             return false;
         }
-       registerUser($('#newuser').val(),$('#newuserpassword').val(),$('#email').val(),$('#mobile').val(),$('#profession').val(),$('#address').val());
+       registerUser($('#newuser').val(),$('#newuserpassword').val(),$('#email').val(),$('#mobile').val(),$('#profession').val(),$('#address').val(),$('#name').val());
        return false;
     });
     
@@ -38,7 +38,7 @@ $(document).ready(function(){
     
 });    
 
-function registerformValidation(userName,password,email,mobile,profession,address){
+function registerformValidation(userName,password,email,mobile,profession,address,name){
     var $errorList = [];
     
     console.log(userName);
@@ -60,7 +60,10 @@ function registerformValidation(userName,password,email,mobile,profession,addres
         $errorList.push("Please Select Profession. ");
         return false;
     }else if(address.length < 1){
-        $errorList.push("Please enter Address. ");
+        $errorList.push("Please enter Address. <br/>");
+        return false;
+    }else if(name.length < 1){
+        $errorList.push("Please enter Name. ");
         return false;
     }else {
      return true;   
@@ -69,12 +72,12 @@ function registerformValidation(userName,password,email,mobile,profession,addres
      $('#errorRBlock').css("visibility") == "visible";
     
 }
-function registerUser(userName,password,email,mobile,profession,address){
+function registerUser(userName,password,email,mobile,profession,address,name){
     $("#emailErrmsg").html("").show();
-    var formValidation = registerformValidation(userName,password,email,mobile,profession,address);
+    var formValidation = registerformValidation(userName,password,email,mobile,profession,address,name);
     console.log(formValidation);
     if(formValidation){
-var registerData = JSON.stringify( {"userName" : userName,"password" : password,"email" : email,"mobile" : mobile,"profession" : profession,"address":address } );
+var registerData = JSON.stringify( {"userName" : userName,"password" : password,"email" : email,"mobile" : mobile,"profession" : profession,"address":address,"name":name } );
             console.log("data "+registerData);
         $.ajax({
             type: 'POST',
@@ -94,7 +97,7 @@ var registerData = JSON.stringify( {"userName" : userName,"password" : password,
 
                $.each(list, function(index, user) {
                   
-                    $('#errorDisplay').html("User Created Successfully.Use your Mobile # as USERID Please Login with your credentials !");
+                    $('#errorDisplay').html("User Created Successfully.Use your Mobile # as USERID. Please Login with your credentials !");
                     $('#errorRBlock').css("visibility") == "visible";
                    
                 });

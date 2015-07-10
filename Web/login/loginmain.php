@@ -162,8 +162,18 @@
                                 <i class="icon-append fa fa-lock"></i>
                                 <input type="password" id="newuserpassword" placeholder="Password"  >
                             </label>
-                                <!--input type="text" id="newuser" placeholder="Name" class="form-control  state-success" required-->                       </section>  
+                                <!--input type="text" id="newuser" placeholder="Name" class="form-control  state-success" required-->                       </section>
+                        
                        </fieldset> 
+                        <fieldset>
+                    
+                             <section>
+                                 <label class="input">
+                                    <i class="icon-append fa fa-lock"></i>
+                                    <input type="text" id="name" placeholder="Name"  >
+                                </label>
+                                    <!--input type="text" id="newuser" placeholder="Name" class="form-control  state-success" required-->                       </section>
+                        </fieldset>
                 </div>
                      <fieldset>
                         <section>
