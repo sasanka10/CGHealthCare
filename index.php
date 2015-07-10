@@ -11,6 +11,7 @@ ini_set("error_log", "/Applications/MAMP/htdocs/HealthCareSystem/RestAPI/errorlo
 
 $app->get('/authenticate/:username/:password', 'authenticateUser');
 $app->get('/','initialMessage');
+$app->post('/registerUser', 'registerUser');
 $app->run();
 
 function initialMessage(){
@@ -42,6 +43,30 @@ function authenticateUser($username,$password) {
     
 }
 
+function registerUser(){
+    try {
+            $request = Slim::getInstance()->request();
+            $user = json_decode($request->getBody());
+  $sql = "INSERT INTO users (username, password, email, mobile, profession) VALUES (:userName, :password, :email, :mobile, :profession)";
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+		$stmt->bindParam("userName", $user->userName);
+		$stmt->bindParam("password", $user->password);
+		$stmt->bindParam("email", $user->email);
+		$stmt->bindParam("mobile", $user->mobile);
+		$stmt->bindParam("profession", $user->profession);
+		$stmt->execute();
+		$newUser->id = $db->lastInsertId();
+		$db = null;
+		echo json_encode($newUser); 
+	 } catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}
+
+}
 
  function logToFile($filename, $msg)
    { 
