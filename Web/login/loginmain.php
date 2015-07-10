@@ -178,6 +178,7 @@
                                  <option value="">-- Select Profession --</option>
                                 <option value="doctor">Doctor</option>
                                  <option value="staff">Hosiptal Staff</option>
+                                 <option value="staff">Patient</option>
                                  <option value="others">Others</option> 
                             </select>  
                         </div>   
