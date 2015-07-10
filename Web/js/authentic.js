@@ -1,14 +1,29 @@
 // The root URL for the RESTful services
-var rootURL = "http://localhost:8888/HealthCareSystem";
+//var rootURL = "http://localhost:8888/HealthCareSystem";
+var rootURL = "http://"+$('#host').val()+"/"+$('#rootnode').val();
 $(document).ready(function(){
-   // $('#errorblock').hide();
-    //$(".errorblock").css({"visibility":"hidden"});
+  
+  
+      $("#mobile").keypress(function (e) {
+         if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            //display error message
+            $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                   return false;
+        }
+       });
+    
     $('#login').click(function() {
         authenticateUser($('#username').val(),$('#password').val());
         return false;
     });
    $('#registeruser').click(function() {
-       registerUser($('#newuser').val(),$('#newuserpassword').val(),$('#email').val(),$('#mobile').val(),$('#profession').val());
+       var sEmail = $('#email').val();
+        var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!filter.test(sEmail))  {
+             $("#emailErrmsg").html("Invalid Email Address").show();
+            return false;
+        }
+       registerUser($('#newuser').val(),$('#newuserpassword').val(),$('#email').val(),$('#mobile').val(),$('#profession').val(),$('#address').val());
        return false;
     });
     
@@ -23,7 +38,7 @@ $(document).ready(function(){
     
 });    
 
-function registerformValidation(userName,password,email,mobile,profession){
+function registerformValidation(userName,password,email,mobile,profession,address){
     var $errorList = [];
     
     console.log(userName);
@@ -44,6 +59,9 @@ function registerformValidation(userName,password,email,mobile,profession){
     }else if(profession.length < 1){
         $errorList.push("Please Select Profession. ");
         return false;
+    }else if(address.length < 1){
+        $errorList.push("Please enter Address. ");
+        return false;
     }else {
      return true;   
     }
@@ -51,11 +69,12 @@ function registerformValidation(userName,password,email,mobile,profession){
      $('#errorRBlock').css("visibility") == "visible";
     
 }
-function registerUser(userName,password,email,mobile,profession){
-    var formValidation = registerformValidation(userName,password,email,mobile,profession);
+function registerUser(userName,password,email,mobile,profession,address){
+    $("#emailErrmsg").html("").show();
+    var formValidation = registerformValidation(userName,password,email,mobile,profession,address);
     console.log(formValidation);
     if(formValidation){
-var registerData = JSON.stringify( {"userName" : userName,"password" : password,"email" : email,"mobile" : mobile,"profession" : profession } );
+var registerData = JSON.stringify( {"userName" : userName,"password" : password,"email" : email,"mobile" : mobile,"profession" : profession,"address":address } );
             console.log("data "+registerData);
         $.ajax({
             type: 'POST',
@@ -68,15 +87,16 @@ var registerData = JSON.stringify( {"userName" : userName,"password" : password,
                 var list = data == null ? [] : (data.user instanceof Array ? data.user : [data.user]);
                  if((list).length < 1 ){
 
-                     $('#errorlist').html("<font color='red'><b>  Invalid User Name and Password Combination </b></font>");
+                     $('#errorlist').html("<font color='red'><b>Sorry due to some technical Issue Unable to Register You</b></font>");
                      $('#errorblock').css("visibility") == "visible";
 
                   } 
 
                $.each(list, function(index, user) {
-                  if(user.rolename == "Patient"){
-                     $(location).attr('href',"http://localhost:8888/HealthCareSystem/Web/patient/patienthome.php"); 
-                  }
+                  
+                    $('#errorDisplay').html("User Created Successfully.Use your Mobile # as USERID Please Login with your credentials !");
+                    $('#errorRBlock').css("visibility") == "visible";
+                   
                 });
 
             },
@@ -117,7 +137,7 @@ function authenticateUser(userName,password) {
            $.each(list, function(index, user) {
                
               if(user.rolename == "Patient"){
-                 $(location).attr('href',"http://localhost:8888/HealthCareSystem/Web/patient/patienthome.php"); 
+                 $(location).attr('href',rootURL+"/Web/patient/patientindex.php"); 
               }
             });
             
