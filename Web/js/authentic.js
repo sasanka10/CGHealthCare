@@ -8,7 +8,7 @@ $(document).ready(function(){
         return false;
     });
    $('#registeruser').click(function() {
-       registerUser($('#profession').val(),$('#mobile').val(),$('#email').val(),$('#newuserpassword').val(),$('#newuser').val());
+       registerUser($('#newuser').val(),$('#newuserpassword').val(),$('#email').val(),$('#mobile').val(),$('#profession').val());
        return false;
     });
     
@@ -16,19 +16,37 @@ $(document).ready(function(){
         
           $('#newuser').val($('#username').val());
           $('#newuserpassword').val($('#password').val());
+          var $errorList = [];
+           $('#errorDisplay').html($errorList);
     });
     
     
 });    
 
-function registerformValidation(userName,password,emai,mobile,profession){
+function registerformValidation(userName,password,email,mobile,profession){
+    var $errorList = [];
     
+    console.log(userName);
+    console.log(userName.length < 1);
     
+    if(userName.length < 1)
+        $errorList.push("Please enter User Name.  ");
+    if(password.length < 1)
+        $errorList.push("Please enter Password. <br/>");
+    if(email.length < 1)
+        $errorList.push("Please enter Email. ");
+    if(mobile.length < 1)
+        $errorList.push("  Please enter Mobile #. ");
+    if(profession.length < 1)
+        $errorList.push("Please Select Profession. ");
+    
+    $('#errorDisplay').html($errorList);
+     $('#errorRBlock').css("visibility") == "visible";
     
 }
-function registerUser(userName,password,emai,mobile,profession){
+function registerUser(userName,password,email,mobile,profession){
     
-    if(registerformValidation(userName,password,emai,mobile,profession)){
+    if(registerformValidation(userName,password,email,mobile,profession)){
 
         $.ajax({
             type: 'POST',

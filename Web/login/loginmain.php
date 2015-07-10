@@ -129,8 +129,23 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Register to Application</h4>
             </div>
+        
+          
         <form id="registerform" action="#" method="post">   
             <div class="modal-body">
+                <div class="row">  
+                    <div class="col-md-10" id="errorRBlock">
+                        <p class="validation-summary-errors">
+                            <font color="red">
+                                <span id="errorDisplay"></span>
+                            </font>
+                         </p> 
+                    </div> 
+                </div>     
+                <div class="row">  
+                    <div class="col-md-10" id="errorRBlock">
+                        <hr/>
+                    </div>    
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input-group margin-bottom-20">
@@ -159,12 +174,12 @@
                      <div class="col-md-6">
                                         
                         <div class="input-group margin-bottom-20">
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                             <select id="profession">
+                             <select id="profession" class="form-control">
+                                 <option value="">-- Select Profession --</option>
                                 <option value="doctor">Doctor</option>
                                  <option value="staff">Hosiptal Staff</option>
                                  <option value="others">Others</option> 
-                            </select>
+                            </select>  
                         </div>   
                     </div>
                 </div>    
