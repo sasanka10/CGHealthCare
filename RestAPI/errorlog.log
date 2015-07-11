@@ -1,0 +1,4 @@
+[10-Jul-2015 20:31:54 Europe/Berlin] PHP Fatal error:  Cannot use object of type stdClass as array in /Applications/MAMP/htdocs/HealthCareSystem/index.php on line 38
+[10-Jul-2015 20:32:02 Europe/Berlin] PHP Fatal error:  Cannot use object of type stdClass as array in /Applications/MAMP/htdocs/HealthCareSystem/index.php on line 38
+[10-Jul-2015 20:32:06 Europe/Berlin] PHP Fatal error:  Cannot use object of type stdClass as array in /Applications/MAMP/htdocs/HealthCareSystem/index.php on line 38
+[10-Jul-2015 20:32:35 Europe/Berlin] PHP Fatal error:  Cannot use object of type stdClass as array in /Applications/MAMP/htdocs/HealthCareSystem/index.php on line 38

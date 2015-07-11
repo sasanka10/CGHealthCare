@@ -1,6 +1,9 @@
 <?php
-
+session_start();
+require 'Business/PatientData.php';
 require 'Slim/Slim.php';
+
+
 $app = new Slim();
 
 error_reporting(E_ALL); 
@@ -12,6 +15,7 @@ ini_set("error_log", "/Applications/MAMP/htdocs/HealthCareSystem/RestAPI/errorlo
 $app->get('/authenticate/:username/:password', 'authenticateUser');
 $app->get('/','initialMessage');
 $app->post('/registerUser', 'registerUser');
+$app->put('/updateprofile/:id','updateProfile');
 $app->run();
 
 function initialMessage(){
@@ -24,7 +28,7 @@ function initialMessage(){
 }
 
 function authenticateUser($username,$password) {
-    $sql = "SELECT u.username as username,r.roleName as rolename FROM users u,user_roles ur,roles r WHERE u.ID = ur.userID and r.ID = u.id and  u.username = :username and u.password = :password";
+    $sql = "SELECT u.username as username,r.roleName as rolename,u.id as userid FROM users u,user_roles ur,roles r WHERE u.ID = ur.userID and r.ID = u.id and  u.username = :username and u.password = :password";
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);
@@ -34,7 +38,13 @@ function authenticateUser($username,$password) {
 		$userDetails = $stmt->fetchAll(PDO::FETCH_OBJ);
        // logToFile("/Applications/MAMP/htdocs/HealthCareSystem/RestAPI/errorlog.log",("Hello User Details are ".$userDetails));
 		$db = null;
-		echo '{"user": ' . json_encode($userDetails) . '}';
+        $dt = $userDetails[0];
+		$_SESSION['userid'] = $dt->userid;
+        
+        echo '{"user": ' . json_encode($userDetails) . '}';
+        
+        
+        
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	} catch(Exception $e1) {
@@ -47,7 +57,7 @@ function registerUser(){
     try {
             $request = Slim::getInstance()->request();
             $user = json_decode($request->getBody());
-  $sql = "INSERT INTO users (username, password, email, mobile, profession) VALUES (:userName, :password, :email, :mobile, :profession)";
+  $sql = "INSERT INTO users (username, password, email, mobile, profession,address,name) VALUES (:userName, :password, :email, :mobile, :profession,:address,:name)";
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
 		$stmt->bindParam("userName", $user->userName);
@@ -55,10 +65,13 @@ function registerUser(){
 		$stmt->bindParam("email", $user->email);
 		$stmt->bindParam("mobile", $user->mobile);
 		$stmt->bindParam("profession", $user->profession);
+        $stmt->bindParam("address", $user->address);
+         $stmt->bindParam("name", $user->name);
 		$stmt->execute();
-		$newUser->id = $db->lastInsertId();
+        //echo "Last Insert Id".$db->lastInsertId();
+		$user->id = $db->lastInsertId();
 		$db = null;
-		echo json_encode($newUser); 
+		echo json_encode($user); 
 	 } catch(PDOException $e) {
 		error_log($e->getMessage(), 3, '/var/tmp/php.log');
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
@@ -67,6 +80,26 @@ function registerUser(){
 	}
 
 }
+
+
+function updateProfile($id){
+    $pd = new PatientData();
+    try{
+        $request = Slim::getInstance()->request();
+        $body = $request->getBody();
+        $profile = json_decode($body);
+        $profile = $pd->updateProfile($id,$profile);
+        echo json_encode($profile);
+        
+    }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}
+    
+}
+
 
  function logToFile($filename, $msg)
    { 
