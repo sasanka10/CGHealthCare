@@ -4,7 +4,7 @@
             <img class="img-responsive" src="../config/content/assets/img/job/high-rated-job-3.1.jpg" alt=""> 
             <div class="md-margin-bottom-20"></div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="bg-light"><!-- You can delete "bg-light" class. It is just to make background color -->        
                 <h5><b>Name </b> &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;<?php echo $result[0]->name; ?></h5>
                 <p><b>Last Visit</b> :&nbsp; 12/06/2015</p>

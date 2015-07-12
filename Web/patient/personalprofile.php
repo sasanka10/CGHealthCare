@@ -4,7 +4,7 @@
              <div class="panel panel-blue">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-tasks"></i> Profile
-                               
+                                        <a href="patientindex.php?page=appointment" class="pull-right">Book Appointment</a>
                                 </h3>
                                  
                             </div>
@@ -20,8 +20,8 @@
                           <section>
                               <label class="label">Name</label>
                               <label class="input">
-                                  <!--i class="icon-append fa fa-user"></i>
-                                  <input type="text" name="name"  placeholder="Name"-->
+                                  <!--i class="icon-append fa fa-user"></i-->
+                                 
                                    <b><i><?php  echo $result[0]->username; ?></i></b>
                               </label>
                           </section>

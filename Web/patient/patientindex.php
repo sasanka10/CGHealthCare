@@ -1,7 +1,15 @@
 <?php 
 session_start();
 include_once('../../Business/PatientData.php');
+include_once('../../Business/MasterData.php');
 $pd = new PatientData();
+$md = new MasterData();
+
+$hosiptal = $md->getHosiptalData();
+$doctor = $md->getDoctorData();    
+    
+print_r($hosiptal);
+print_r($doctor);
 
 if( isset( $_SESSION['userid'] ) )
    {
@@ -12,6 +20,8 @@ if( isset( $_SESSION['userid'] ) )
     $result = json_decode($pDetails);
         echo "asasasas".$result[0]->email;
         //print $result->{'username '};
+    $_SESSION['pname'] = $result[0]->name;
+    $_SESSION['pid'] = $result[0]->ID;
    }
 
 ?>
@@ -67,6 +77,8 @@ if( isset( $_SESSION['userid'] ) )
       <!-- End Header -->
       <input type="hidden" id="host" value="<?php   print( $_SESSION['host']);     ?>" />  
       <input type="hidden" id="rootnode" value="<?php print_r($_SESSION['rootNode']);?>" />
+        <input type="hidden" id="pname" name="pname" value="<?php  echo $result[0]->name; ?>" >
+        <input type="hidden" id="pid" name="pid" value="<?php  echo $result[0]->ID; ?>" >
        <div class="container content">
         <div class="col-md-14">
             <div class="row">
@@ -74,7 +86,9 @@ if( isset( $_SESSION['userid'] ) )
                     <?php  include_once('leftmenu.php');  ?>
                 </div>    
                 <div >
-                    <?php if($_GET['page'] == "personal") { ?>
+                    <?php if($_GET['page'] == "appointment") { ?>
+                        <?php  include_once('../common/appointment.php');  ?>
+                    <?php } else if($_GET['page'] == "personal") { ?>
                         <?php  include_once('personalprofile.php');  ?>
                     <?php } else {?>
                         <?php  include_once('patienthome.php');  ?>
@@ -116,11 +130,14 @@ if( isset( $_SESSION['userid'] ) )
    <script type="text/javascript" src="../config/content/assets/plugins/back-to-top.js"></script>
    <!-- JS Page Level -->           
    <script type="text/javascript" src="../config/content/assets/js/app.js"></script>
+        <script type="text/javascript" src="../config/content/assets/js/plugins/datepicker.js"></script>
+    <script src="../config/content/assets/plugins/sky-forms/version-2.0.1/js/jquery-ui.min.js"></script>
     <script src="../js/authentic.js"></script>
       <script src="../js/patient.js"></script>
    <script type="text/javascript">
        jQuery(document).ready(function() {
            App.init();
+            Datepicker.initDatepicker();
        });
    </script>
    <!--[if lt IE 9]>
