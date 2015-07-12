@@ -2,6 +2,8 @@
 session_start();
 require 'Business/PatientData.php';
 require 'Business/DoctorData.php';
+require 'Business/StaffData.php';
+require 'Business/MasterData.php';
 require 'Slim/Slim.php';
 
 
@@ -19,8 +21,12 @@ $app->post('/registerUser', 'registerUser');
 $app->put('/updateprofile/:id','updateProfile');
 $app->get('/appointmentsList/:hosiptal/:doctor/:appdate', 'appointmentsList');
 $app->post('/createAppointment', 'createAppointment');
-
+$app->get('/hosiptalDoctorData', 'hosiptalDoctorData');
+$app->get('/professionBasedData/:profession/:name', 'professionBasedData');
+$app->get('/doctorMasterData/:doctorId', 'doctorMasterData');
+$app->post('/createUser', 'createUser');
 $app->run();
+
 
 function initialMessage(){
     try{
@@ -32,7 +38,7 @@ function initialMessage(){
 }
 
 function authenticateUser($username,$password) {
-    $sql = "SELECT u.username as username,r.roleName as rolename,u.id as userid FROM users u,user_roles ur,roles r WHERE u.ID = ur.userID and r.ID = u.id and  u.username = :username and u.password = :password";
+    $sql = "SELECT u.username as username,u.profession as rolename,u.id as userid FROM users u WHERE  u.username = :username and u.password = :password";
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);
@@ -135,8 +141,82 @@ function createAppointment($hosiptal,$doctor,$appdate,$slot,$pid,$status,$pname)
     
 }
 
+function hosiptalDoctorData(){
+    
+        $sd = new StaffData();
+    try{
+            $hosiptalDoctorData = $sd->hosiptalDoctorData();
+           echo '{"hosiptalDoctorData": ' . json_encode($hosiptalDoctorData) . '}';
+       
+    
+    }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}  
+    
+}
+
+function professionBasedData($profession,$name){
+    
+   try{
+       
+           $md = new MasterData();
+            $masterUsersData = $md->masterUsersData($profession,$name);
+           echo '{"masterUsersData": ' . json_encode($masterUsersData) . '}';
+       
+    
+    }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}  
+    
+}
 
 
+function doctorMasterData($doctorId){
+    
+   try{
+       
+           $ddd = new DoctorData();
+            $doctorMasterData = $ddd->doctorMasterData($doctorId);
+       
+       //echo "Hello".$doctorMasterData;
+           echo '{"doctorMasterData": ' . json_encode($doctorMasterData) . '}';
+       
+    
+    }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}  
+    
+}
+
+
+function createUser(){
+    
+     $dd = new DoctorData();
+    try{
+           $request = Slim::getInstance()->request();
+            $userDetails = json_decode($request->getBody());
+  
+        
+           $userDetails = $dd->createDoctorData($userDetails->userName,$userDetails->password,$userDetails->name,$userDetails->mobile,$userDetails->altmobile,$userDetails->address,$userDetails->email,$userDetails->department,$userDetails->hosiptal,$userDetails->profession); 
+        
+           echo '{"userDetails": ' . json_encode($userDetails) . '}';
+       }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}   
+    
+}
 
  function logToFile($filename, $msg)
    { 

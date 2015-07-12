@@ -123,7 +123,7 @@ function authenticateUser(userName,password) {
         $('#errorlist').html(" <font color='red'><b>  Please enter Password</b></font>");
         return false;
     }
-    
+    console.log(rootURL + '/authenticate/' + userName +'/'+password);
 	$.ajax({
 		type: 'GET',
 		url: rootURL + '/authenticate/' + userName +'/'+password,
@@ -141,12 +141,18 @@ function authenticateUser(userName,password) {
                
               if(user.rolename == "Patient"){
                  $(location).attr('href',rootURL+"/Web/patient/patientindex.php"); 
+              } else if(user.rolename == "Staff"){
+                 $(location).attr('href',rootURL+"/Web/staff/staffindex.php"); 
+              } else {
+                   $('#errorlist').html("<font color='red'><b>  Please Contact Admin for activating account  </b></font>");
+                  $('#errorblock').css("visibility") == "visible";
               }
             });
             
 		},
         error: function(data){
-           console.log("Error IS ......".data);
+           $('#errorlist').html("<font color='red'><b>  Unable to login to System Please contact System Admin.</b></font>");
+                 $('#errorblock').css("visibility") == "visible";
         }
 	});
 }

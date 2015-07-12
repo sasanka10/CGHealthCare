@@ -53,5 +53,29 @@ class MasterData{
         
     }
     
+        
+    function masterUsersData($profession,$name){
+     try {
+        $dbConnection = new Database();
+        $sql = "SELECT * from users where profession = :profession";
+         //echo $sql;  
+                $db = $dbConnection->getConnection();
+                $stmt = $db->prepare($sql);
+                $stmt->bindParam("profession", $profession);
+                //$stmt->bindParam("name", "%".$name."%");
+                $stmt->execute();
+                $masterUsersData = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $db = null;
+                return ($masterUsersData);
+
+
+
+            } catch(PDOException $e) {
+                echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+            } catch(Exception $e1) {
+                echo '{"error1111":{"text1111":'. $e1->getMessage() .'}}'; 
+            } 
+        
+    }
 }
-?>    
+?>  
