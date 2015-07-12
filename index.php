@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'Business/PatientData.php';
+require 'Business/DoctorData.php';
 require 'Slim/Slim.php';
 
 
@@ -16,6 +17,9 @@ $app->get('/authenticate/:username/:password', 'authenticateUser');
 $app->get('/','initialMessage');
 $app->post('/registerUser', 'registerUser');
 $app->put('/updateprofile/:id','updateProfile');
+$app->get('/appointmentsList/:hosiptal/:doctor/:appdate', 'appointmentsList');
+$app->post('/createAppointment', 'createAppointment');
+
 $app->run();
 
 function initialMessage(){
@@ -89,7 +93,7 @@ function updateProfile($id){
         $body = $request->getBody();
         $profile = json_decode($body);
         $profile = $pd->updateProfile($id,$profile);
-        echo json_encode($profile);
+        json_encode($profile);
         
     }  catch(PDOException $e) {
 		error_log($e->getMessage(), 3, '/var/tmp/php.log');
@@ -99,6 +103,39 @@ function updateProfile($id){
 	}
     
 }
+
+
+function appointmentsList($hosiptal,$doctor,$appdate){
+    $dd = new DoctorData();
+    try{
+           $appointmentDetails = $dd->getAppointmentDetails($hosiptal,$doctor,$appdate); 
+           echo '{"appointmentDetails": ' .json_encode($appointmentDetails) . '}';
+       }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}   
+    
+}
+
+function createAppointment($hosiptal,$doctor,$appdate,$slot,$pid,$status,$pname){
+    $dd = new DoctorData();
+    try{
+           $request = Slim::getInstance()->request();
+            $appointmentDetails = json_decode($request->getBody());
+           $appointmentDetails = $dd->createAppointment($appointmentDetails->hosiptal,$appointmentDetails->doctor,$appointmentDetails->appdate,$appointmentDetails->slot,$appointmentDetails->pid,$appointmentDetails->status,$appointmentDetails->pname); 
+           echo '{"appointmentDetails": ' . json_encode($appointmentDetails) . '}';
+       }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}   
+    
+}
+
+
 
 
  function logToFile($filename, $msg)
