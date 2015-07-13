@@ -63,8 +63,12 @@ class MasterData{
                 $stmt = $db->prepare($sql);
                 $stmt->bindParam("profession", $profession);
                 //$stmt->bindParam("name", "%".$name."%");
+        
                 $stmt->execute();
-                $masterUsersData = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+         // echo $stmt->debugDumpParams();
+         
+         $masterUsersData = $stmt->fetchAll(PDO::FETCH_OBJ);
                 $db = null;
                 return ($masterUsersData);
 

@@ -54,6 +54,38 @@ class PatientData{
             } 
     }
     
+    function getPatientList($patientName){
+        
+         $dbConnection = new Database();
+        
+            $sql = "SELECT * from users where name LIKE :patientName";
+        
+        echo $sql;
+        echo $patientName;
+            try {
+                $db = $dbConnection->getConnection();
+                $stmt = $db->prepare($sql);
+                $stmt->bindParam("patientName", $patientName, PDO::PARAM_STR);
+                $stmt->execute();
+                $userDetails = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $db = null;
+                //$_SESSION['userDetails'] = $userDetails;
+                //echo $stmt->debugDumpParams();
+                
+                    print_r($userDetails);
+                return json_encode($userDetails);
+
+
+
+            } catch(PDOException $e) {
+                echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+            } catch(Exception $e1) {
+                echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+            } 
+        
+    }
+    
+    
 }
 
 

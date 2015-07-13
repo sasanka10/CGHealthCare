@@ -13,14 +13,7 @@
                             <label class="label col col-2">Patient Name</label>
                             <section class="col col-4">
                                 <label class="input">
-                               <?php // echo (if(isset(((isset($_SESSION['profession']) == "Patient") || isset($_SESSION['profession']) == "Others")));   ?>  
-                                    <?php if(isset($_SESSION['profession']) != "Staff"){ ?>
-                                   <i><?php  echo $_SESSION['pname']; ?></i>
-                                    <input type="hidden" id="patientName"  value="<?php  echo $_SESSION['pname']; ?>" placeholder="Patient Name">
-                                    <?php } else {?>
                                       <input type="text" id="patientName"  placeholder="Patient Name">
-                                     <input type="hidden" id="patientName"  placeholder="Patient Name">
-                                    <?php } ?>
                                   </label>
                             </section>
                            <label class="label col col-2">Hosiptal Name</label>
@@ -63,10 +56,30 @@
                      </fieldset> 
                     <fieldset>
                        <div class="row">
-                         <button type="button" class="btn-u"  name="button" id="blockAppointment" > Block Slot </button>                             <button type="button" class="btn-u pull-right"  name="button" id="bthCheckAppointment" > Check </button>
+                         <button type="button" class="btn-u"  name="button" id="blockAppointment" > Block Slot </button>                             <button type="button" class="btn-u pull-right"  name="button" id="bthCheckStaffAppointmentUsers" > Check </button>
                         </div>     
                         
-                     </fieldset>  
+                     </fieldset> 
+                    <fieldset>
+                      <div class="row">
+                            <section class="col col-2">
+                                     <table class="table table-striped" id="patient_records_table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Patient Id</th>
+                                        <th>Patient Name</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            </section> 
+                      </div>      
+                     
+                     
+                    </fieldset> 
                     <fieldset>
                        <div class="row">
                            <label class="label col col-2">Slot Time</label>

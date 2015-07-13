@@ -20,7 +20,13 @@ $(document).ready(function(){
        updateProfile($('#userid').val(),$('#newuserpassword').val(),$('#email').val(),$('#mobile').val(),$('#name').val(),$('#address').val());
        return false;
     });
-
+    
+    $('#bthCheckStaffAppointmentUsers').click(function(){
+        getPatientList($('#patientName').val());
+         getAppointmentDetails($('#hosiptal').val(),$('#doctor').val(),appdate);
+    });
+    
+    
     
     $('#bthCheckAppointment').click(function() {
         
@@ -30,6 +36,8 @@ $(document).ready(function(){
         $('#hosiptalerrormsg').html("");
         $('#doctorerrormsg').html("");
          $('#starterrormsg').html("");
+        
+        //checkPatientDetails($('#patientName').val());
         getAppointmentDetails($('#hosiptal').val(),$('#doctor').val(),appdate);
         
     });
@@ -47,6 +55,50 @@ if(validateAppointment())        createAppointment($('#hosiptal').val(),$('#doct
     });
     
 });  
+
+
+function getPatientList(patientname){
+    
+    console.log(rootURL + '/patientList/' + patientname);
+    $.ajax({
+    type: 'GET',
+    url: rootURL + '/patientList/' + patientname,
+    dataType: "json",
+    success: function(data){
+			console.log('authentic success: ' + data)
+            var list = data == null ? [] : (data.appointmentDetails instanceof Array ? data.appointmentDetails : [data.appointmentDetails]); 
+         
+    /*
+             if((list).length < 1 ){
+                 
+                 $('#errorlist').html("<font color='red'><b>  Sorry Network Issue Please try after some time.</b></font>");
+                 $('#errorblock').css("visibility") == "visible";
+                 
+              }
+         var trHTML = '';
+           $.each(list, function(index, appointmentDetails) {
+               var btst = "";
+               if(appointmentDetails.status == "Y")
+                     btst = "Completed";
+               else
+                    btst = "Not Done Yet";
+              
+               
+                    trHTML += '<tr><td>' + index + '</td><td>' + appointmentDetails.PatientName + '</td><td>' + appointmentDetails.AppointmentTime  +'</td><td>' + btst + '</td></tr>';
+                
+               */  
+               
+            });
+             $('#records_table').append(trHTML);
+            $('#records_table').load();
+		},
+        error: function(data){
+           console.log("Error IS ......".data);
+        }
+        
+        
+	});
+}
 
 function validateAppointment(){
        if($('#slot').val() < 2){
@@ -71,7 +123,7 @@ function validateAppointment(){
 function createAppointment(hosiptal,doctor,appdate,pid,slot,status,pname){
     
     var appointmentDetails = JSON.stringify( {"hosiptal" : hosiptal,"doctor" : doctor,"appdate" : appdate,"pid" : pid,"slot":slot,"status":status,"pname":pname } );
-    
+    console.log(appointmentDetails);
     $.ajax({
     type: 'POST',
     contentType: 'application/json',
@@ -91,7 +143,14 @@ function createAppointment(hosiptal,doctor,appdate,pid,slot,status,pname){
     
 }
 
-
+function checkPatientDetails(patientname){
+    
+    
+    console.log("do validate patient");
+    
+    
+    
+}
 function getAppointmentDetails(hosiptal,doctor,appdate){
     console.log(rootURL + '/appointmentsList/' + hosiptal +'/'+doctor +'/'+appdate);
     $.ajax({

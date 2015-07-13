@@ -22,6 +22,7 @@ if( isset( $_SESSION['userid'] ) )
         //print $result->{'username '};
     $_SESSION['pname'] = $result[0]->name;
     $_SESSION['pid'] = $result[0]->ID;
+    $_SESSION['profession'] = $result[0]->profession;
    }
 
 ?>
@@ -79,6 +80,7 @@ if( isset( $_SESSION['userid'] ) )
       <input type="hidden" id="rootnode" value="<?php print_r($_SESSION['rootNode']);?>" />
         <input type="hidden" id="pname" name="pname" value="<?php  echo $result[0]->name; ?>" >
         <input type="hidden" id="pid" name="pid" value="<?php  echo $result[0]->ID; ?>" >
+       <input type="hidden" id="profession" name="profession" value="<?php  echo $result[0]->profession; ?>" >
        <div class="container content">
         <div class="col-md-14">
             <div class="row">
@@ -92,8 +94,17 @@ if( isset( $_SESSION['userid'] ) )
                         <?php  include_once('staffpatient.php');  ?>
                     <?php } else if($_GET['page'] == "hosiptaldoctor") { ?>
                         <?php  include_once('staffhosiptal.php');  ?>
-                    <?php } else {?>
-                        <?php  include_once('staffhome.php');  ?>
+                    <?php } else  if($_GET['page'] == "staffpatient") { ?>
+                        <?php  include_once('staffpatient.php');  ?>
+                    <?php } else  if($_GET['page'] == "staffhosiptal") { ?>
+                        <?php  include_once('staffhosiptal.php');  ?>
+                    <?php } else  if($_GET['page'] == "stafflab") { ?>
+                        <?php  include_once('stafflab.php');  ?>
+                    <?php } else  if($_GET['page'] == "staffmedical") { ?>
+                        <?php  include_once('staffmedical.php');  ?>
+                    <?php } else if($_GET['page'] == "appointment") { ?>
+                        <?php  include_once('staffappointment.php');  ?>
+                    <?php } else { include_once('staffhome.php');  ?>
                     <?php } ?>
                 </div>
              </div>    
