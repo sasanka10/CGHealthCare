@@ -3,22 +3,22 @@
     <div class="row margin-bottom-40">
          <div class="panel panel-blue">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-tasks"></i>Create Doctor</h3>
+                <h3 class="panel-title"><i class="fa fa-tasks"></i>Create Medical</h3>
              </div>
              <div class="panel-body"> 
               <form action="" id="sky-form" class="sky-form">
                  <div class="col-md-12">  
                     <fieldset>
                        <div class="row">
-                            <label class="label col col-2">Doctor Name</label>
+                            <label class="label col col-2">Medical Name</label>
                             <section class="col col-4">
                                 <label class="input">
-                                     <input type="text" id="doctorname" placeholder="Doctor Name"/>
+                                     <input type="text" id="doctorname" placeholder="Name"/>
                                   </label>
                              <font color="red"><i><span id="doctorerrormsg"></span></i></font>    
                             </section>
                             <button type="button" class="btn-u"  name="button" id="getDoctors" > Check </button>
-                   <button type="button" class="btn-u pull-right"  name="button" id="btnSubmitDoctor">Save Data</button>
+                   <button type="button" class="btn-u pull-right"  name="button" id="btnSubmitMedical">Save Data</button>
                          
                         </div>     
                          <section class="col col-4">
@@ -36,13 +36,13 @@
                            <section class="col col-4">
                            <div class="panel panel-sea margin-bottom-40">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-edit"></i>Doctor List</h3>
+                                <h3 class="panel-title"><i class="fa fa-edit"></i>Medical List</h3>
                             </div>
                             <table class="table table-striped" id="doctor_NonActive_data">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Doctor Name</th>
+                                        <th>Medical Name</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -56,7 +56,7 @@
                         <div class="col-md-15">
                           <div class="panel panel-sea margin-bottom-40">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-edit"></i>Doctor Data</h3>
+                                <h3 class="panel-title"><i class="fa fa-edit"></i>Medical Data</h3>
                                 
                             </div>
                             
@@ -69,7 +69,7 @@
                               <label class="label">Name</label>
                               <label class="input">
                                   <i class="icon-append fa fa-user"></i>
-                                   <input type="text" id="name"  placeholder="Doctor Name">
+                                   <input type="text" id="name"  placeholder="Name">
                               </label>
                           </section>
 
@@ -101,15 +101,7 @@
                                
                               </label>
                           </section>
-                           <section>
-                              <label class="label">Contact Address</label>
-                             <label class="textarea">
-                                  <i class="icon-append fa fa-comment"></i>
-                                  <textarea rows="4" id="address"  placeholder="Contact Address"></textarea>
-                                
-                              </label>
-                         </section>
-                        
+                           
 
                   </fieldset>
 
@@ -145,39 +137,15 @@
 
               </section>
 
+            <section>
+              <label class="label">Contact Address</label>
+             <label class="textarea">
+                  <i class="icon-append fa fa-comment"></i>
+                  <textarea rows="4" id="address"  placeholder="Contact Address"></textarea>
 
+              </label>
+         </section>
 
-              <section>
-                  <label class="label">Specialisation
-                 </label>
-                <label class="input">
-                      <i class="icon-append fa fa-user"></i>
-                      <input type="specialisation" id="specialisation" placeholder="Specialisation">
-                  </label>
-              </section>
-               <section>
-                   <label class="label">Hosiptal Name </label>
-                    <label class="select">
-                        <select name="hosiptal" id="hosiptal">
-                            <option value="HOSIPTAL" selected >Hosiptal Name</option>
-                             <?php foreach ($hosiptal as $value) { ?>
-                                <option value="<?php echo $value->id ?>"><?php echo $value->hosiptalname ?></option>
-                            <?php } ?>
-                        </select>
-
-                    </label>
-                    <font color="red"><i><span id="hosiptalerrormsg"></span> </i></font>
-               
-              </section>
-             <section>
-                  <label class="label">Clinic Name
-                 </label>
-                <label class="input">
-                      <i class="icon-append fa fa-user"></i>
-                      <input type="text" id="clinicname" placeholder="Clinic Name">
-                  </label>
-              </section>
- 
 
       </fieldset>
                 
@@ -185,8 +153,6 @@
 
      </div> 
 
-                
-                  
                
                         
                 </form> 

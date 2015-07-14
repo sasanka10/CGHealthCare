@@ -24,7 +24,9 @@ $app->post('/createAppointment', 'createAppointment');
 $app->get('/hosiptalDoctorData', 'hosiptalDoctorData');
 $app->get('/professionBasedData/:profession/:name', 'professionBasedData');
 $app->get('/doctorMasterData/:doctorId', 'doctorMasterData');
+$app->get('/userMasterData/:userId', 'userMasterData');
 $app->post('/createUser', 'createUser');
+$app->get('/patientList/:patientName','patientList');
 $app->run();
 
 
@@ -125,7 +127,7 @@ function appointmentsList($hosiptal,$doctor,$appdate){
     
 }
 
-function createAppointment($hosiptal,$doctor,$appdate,$slot,$pid,$status,$pname){
+function createAppointment(){
     $dd = new DoctorData();
     try{
            $request = Slim::getInstance()->request();
@@ -197,6 +199,26 @@ function doctorMasterData($doctorId){
     
 }
 
+function userMasterData($userId){
+    
+   try{
+       
+           $ddd = new DoctorData();
+            $doctorMasterData = $ddd->userMasterData($userId);
+       
+       //echo "Hello".$doctorMasterData;
+           echo '{"doctorMasterData": ' . json_encode($doctorMasterData) . '}';
+       
+    
+    }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}  
+    
+}
+
 
 function createUser(){
     
@@ -207,6 +229,15 @@ function createUser(){
   
         
            $userDetails = $dd->createDoctorData($userDetails->userName,$userDetails->password,$userDetails->name,$userDetails->mobile,$userDetails->altmobile,$userDetails->address,$userDetails->email,$userDetails->department,$userDetails->hosiptal,$userDetails->profession); 
+    //{"userName":"pavan","password":"hanuman","name":"Pavan Kumar Kuppa","mobile":"9052343653","altmobile":"01","address":"Flat no 205,Unicon Foland,Reshmi Nagara, 2nd Main, Vajrahalli road, Off Kankapura road, Bangalore","email":"k1@K11.com","department":"","hosiptal":"","profession":"Patient"}
+    //pavanhanumanPavan Kumar Kuppa905234365301Flat no 205,Unicon Foland,Reshmi Nagara, 2nd Main, Vajrahalli road, Off Kankapura road, Bangalorek1@K11.comPatient{"error11":{"text11":Trying to get property of non-object}}    
+     //  echo  $userDetails->userName; echo  $userDetails->password; echo  $userDetails->name; echo  $userDetails->mobile; echo  $userDetails->altmobile; echo  $userDetails->address; echo  $userDetails->email; echo  $userDetails->profession;
+        
+//$userDetails = $dd->createUser($userDetails->userName,$userDetails->password,$userDetails->name,$userDetails->mobile,$userDetails->altmobile,$userDetails->address,$userDetails->email,$userDetails->profession);
+  //      if($userDetails->profession == "Doctor")
+    //        createHosiptalRelation($userDetails->department,$userDetails->hosiptal,$userDetails);
+        
+        //print($userDetails);
         
            echo '{"userDetails": ' . json_encode($userDetails) . '}';
        }  catch(PDOException $e) {
@@ -217,6 +248,23 @@ function createUser(){
 	}   
     
 }
+
+function patientList($patientName){
+    echo $patientName;
+    try{
+        $pd = new PatientData();
+           $userDetails = $pd->getPatientList($patientName);
+        
+          echo '{"userDetails": ' . json_encode($userDetails) . '}';
+        
+     }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}   
+}
+
 
  function logToFile($filename, $msg)
    { 

@@ -7,13 +7,15 @@
                     <li><a href="staffindex.php?page=staffpatient">Patient</a></li>
                     <li><a href="staffindex.php?page=staffdoctor">Doctor</a></li>
                     <li><a href="staffindex.php?page=staffhosiptal">Hosiptal</a></li>
+                    <li><a href="staffindex.php?page=stafflab">Lab</a></li>
+                    <li><a href="staffindex.php?page=staffmedical">Medical</a></li>
                                             
                 </ul>
             </li> 
 
             <li class="list-group-item"><a href="#">Prescription</a></li> 
 
-            <li class="list-group-item"><a href="#">Book Appointment</a></li> 
+            <li class="list-group-item"><a href="staffindex.php?page=appointment">Book Appointment</a></li> 
 
             <li class="list-group-item"><a href="#">Reports</a></li> 
 

@@ -66,7 +66,8 @@ class DoctorData{
      //echo "User Name".$userName;
         $id = $this->createUser($userName,$password,$name,$mobile,$altmobile,$address,$email,$profession);
        // echo "IDDD".$id;
-        $hosId = $this->createHosiptalRelation($department,$hosiptal,$id);
+        if($profession == "Doctor")     
+            $hosId = $this->createHosiptalRelation($department,$hosiptal,$id);
          return $id;
        } catch(PDOException $e) {
                 error_log($e->getMessage(), 3, '/var/tmp/php.log');
@@ -135,6 +136,29 @@ class DoctorData{
             $db = getConnection();
             $stmt = $db->prepare($sql);  
             $stmt->bindParam("doctorId", $doctorId);
+            $stmt->execute();
+           // $doctorMasterData = $stmt->lastInsertId();
+            $doctorMasterData = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $db = null;
+            return $doctorMasterData; 
+         } catch(PDOException $e) {
+            error_log($e->getMessage(), 3, '/var/tmp/php.log');
+            echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+        } catch(Exception $e1) {
+            echo '{"error1111":{"text1111":'. $e1->getMessage() .'}}'; 
+        }
+    }
+    
+    
+function userMasterData($userId){
+$dbConnection = new Database();
+ //echo "Doctor Id".$userId."         ";
+            try{
+             $sql = "select * from users u where u.ID = :userId";    
+//echo $sql;
+            $db = getConnection();
+            $stmt = $db->prepare($sql);  
+            $stmt->bindParam("userId", $userId);
             $stmt->execute();
            // $doctorMasterData = $stmt->lastInsertId();
             $doctorMasterData = $stmt->fetchAll(PDO::FETCH_OBJ);
