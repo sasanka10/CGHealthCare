@@ -31,11 +31,18 @@ class DoctorData{
     }
     
     
-    function createAppointment($hosiptal,$doctor,$appdate,$pid,$slot,$status,$pname){
+    function createAppointment($hosiptal,$doctor,$appdate,$slot,$pid,$status,$pname){
      
              $dbConnection = new Database();
             try{
-             $sql = "INSERT INTO appointment(DoctorId, AppointementDate, AppointmentTime,status,PatientId,HosiptalId,PatientName) VALUES (:doctor,:appdate,:slot,:status,:pid,:hosiptal,:pname)";    
+               // echo "ID.....".$pid."    ";
+                $pname = $this->userMasterData($pid);
+                $hname = $this->userMasterData($hosiptal);
+                $dname = $this->userMasterData($doctor);
+                //print($pname[0]->name);
+               // echo "Hello";
+                
+             $sql = "INSERT INTO appointment(DoctorId, AppointementDate, AppointmentTime,status,PatientId,HosiptalId,PatientName,HosiptalName,DoctorName) VALUES (:doctor,:appdate,:slot,:status,:pid,:hosiptal,:pname,:hname,:dname)";    
 
             $db = getConnection();
             $stmt = $db->prepare($sql);  
@@ -45,12 +52,14 @@ class DoctorData{
             $stmt->bindParam("status",$status);
             $stmt->bindParam("pid", $pid);
             $stmt->bindParam("hosiptal", $hosiptal);
-            $stmt->bindParam("pname", $pname);
+            $stmt->bindParam("pname", $pname[0]->name);
+            $stmt->bindParam("pname", $pname[0]->name);
+            $stmt->bindParam("pname", $pname[0]->name);    
             $stmt->execute();
             $appointment = $db->lastInsertId();
             $db = null;
 
-            return $appointment; 
+            return $pname; 
          } catch(PDOException $e) {
             error_log($e->getMessage(), 3, '/var/tmp/php.log');
             echo '{"error":{"text":'. $e->getMessage() .'}}'; 
@@ -152,7 +161,7 @@ class DoctorData{
     
 function userMasterData($userId){
 $dbConnection = new Database();
- //echo "Doctor Id".$userId."         ";
+ //echo "User Id".$userId."         ";
             try{
              $sql = "select * from users u where u.ID = :userId";    
 //echo $sql;

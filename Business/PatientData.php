@@ -53,6 +53,7 @@ class PatientData{
                 echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
             } 
     }
+  
     
     function getPatientList($patientName){
         
@@ -60,20 +61,20 @@ class PatientData{
         
             $sql = "SELECT * from users where name LIKE :patientName";
         
-        echo $sql;
-        echo $patientName;
+     //   echo $sql;
+    //    echo $patientName;
             try {
                 $db = $dbConnection->getConnection();
                 $stmt = $db->prepare($sql);
-                $stmt->bindParam("patientName", $patientName, PDO::PARAM_STR);
+                $stmt->bindValue("patientName", "%".$patientName."%", PDO::PARAM_STR);
                 $stmt->execute();
                 $userDetails = $stmt->fetchAll(PDO::FETCH_OBJ);
                 $db = null;
                 //$_SESSION['userDetails'] = $userDetails;
-                //echo $stmt->debugDumpParams();
+               // echo $stmt->debugDumpParams();
                 
-                    print_r($userDetails);
-                return json_encode($userDetails);
+                  //  print_r($userDetails);
+                return $userDetails;
 
 
 
@@ -82,8 +83,62 @@ class PatientData{
             } catch(Exception $e1) {
                 echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
             } 
+    }
+
+    function getAppointmentPatientList($patientName,$hosiptal,$appdate){
+        
+          $dbConnection = new Database();
+        
+            $sql = "SELECT * from appointment where patientName LIKE :patientName and hosiptalid = :hosiptalid and appointementdate = :appdate and status = 'N'";
+        
+     //   echo $sql;
+    //    echo $patientName;
+            try {
+                $db = $dbConnection->getConnection();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue("patientName", "%".$patientName."%", PDO::PARAM_STR);
+                $stmt->bindParam("hosiptalid", $hosiptal);
+                $stmt->bindParam("appdate", $appdate);
+                $stmt->execute();
+                $appointmentDetails = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $db = null;
+                //$_SESSION['userDetails'] = $userDetails;
+               // echo $stmt->debugDumpParams();
+                
+                  //  print_r($userDetails);
+                return $appointmentDetails;
+
+
+
+            } catch(PDOException $e) {
+                echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+            } catch(Exception $e1) {
+                echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+            } 
+    }
+    
+    
+    
+      
+    function updateAppointment($appointmentId){
+        
+            $dbConnection = new Database();
+            $sql = "update appointment set status = 'Y' where id =:id";
+        try{
+                $db = getConnection();
+                $stmt = $db->prepare($sql);  
+                $stmt->bindParam("id", $appointmentId);
+                $stmt->execute();  
+                $db = null;
+                return $appointmentId;
+        } catch(PDOException $e) {
+                echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+            } catch(Exception $e1) {
+                echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+            } 
         
     }
+    
     
     
 }

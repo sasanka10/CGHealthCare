@@ -27,6 +27,8 @@ $app->get('/doctorMasterData/:doctorId', 'doctorMasterData');
 $app->get('/userMasterData/:userId', 'userMasterData');
 $app->post('/createUser', 'createUser');
 $app->get('/patientList/:patientName','patientList');
+$app->get('/appointmentPatientList/:patientName/:hosiptal/:appdate', 'appointmentPatientList');
+$app->put('/updateAppointment/:appointmentId','updateAppointment');
 $app->run();
 
 
@@ -132,13 +134,14 @@ function createAppointment(){
     try{
            $request = Slim::getInstance()->request();
             $appointmentDetails = json_decode($request->getBody());
+        //echo $appointmentDetails->pid;
            $appointmentDetails = $dd->createAppointment($appointmentDetails->hosiptal,$appointmentDetails->doctor,$appointmentDetails->appdate,$appointmentDetails->slot,$appointmentDetails->pid,$appointmentDetails->status,$appointmentDetails->pname); 
            echo '{"appointmentDetails": ' . json_encode($appointmentDetails) . '}';
        }  catch(PDOException $e) {
 		error_log($e->getMessage(), 3, '/var/tmp/php.log');
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	} catch(Exception $e1) {
-		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+		echo '{"error112":{"text121":'. $e1->getMessage() .'}}'; 
 	}   
     
 }
@@ -250,7 +253,7 @@ function createUser(){
 }
 
 function patientList($patientName){
-    echo $patientName;
+   // echo $patientName;
     try{
         $pd = new PatientData();
            $userDetails = $pd->getPatientList($patientName);
@@ -265,6 +268,43 @@ function patientList($patientName){
 	}   
 }
 
+
+function appointmentPatientList($patientName,$hosiptal,$appdate){
+    $pd = new PatientData();
+    try{
+        
+        $appointmentDetails = $pd->getAppointmentPatientList($patientName,$hosiptal,$appdate);
+        echo '{"appointmentDetails": ' . json_encode($appointmentDetails) . '}';
+        
+    }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}     
+    
+}
+
+
+function updateAppointment($appointmentId){
+    
+     $pd = new PatientData();
+    try{
+        $request = Slim::getInstance()->request();
+        $body = $request->getBody();
+        $appointment = json_decode($body);
+        $appointmentDetails = $pd->updateAppointment($appointmentId,$appointment);
+        echo json_encode($appointmentDetails);
+        
+    }  catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	} catch(Exception $e1) {
+		echo '{"error11":{"text11":'. $e1->getMessage() .'}}'; 
+	}
+    
+    
+}
 
  function logToFile($filename, $msg)
    { 

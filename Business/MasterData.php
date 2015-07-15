@@ -57,12 +57,12 @@ class MasterData{
     function masterUsersData($profession,$name){
      try {
         $dbConnection = new Database();
-        $sql = "SELECT * from users where profession = :profession";
+        $sql = "SELECT * from users where profession = :profession and name LIKE : name";
          //echo $sql;  
                 $db = $dbConnection->getConnection();
                 $stmt = $db->prepare($sql);
                 $stmt->bindParam("profession", $profession);
-                //$stmt->bindParam("name", "%".$name."%");
+                $stmt->bindValue("name", "%".$name."%");
         
                 $stmt->execute();
         

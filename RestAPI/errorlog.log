@@ -181,3 +181,15 @@ Stack trace:
 [13-Jul-2015 21:50:38 Europe/Berlin] PHP Fatal error:  Call to undefined method PatientData::getPatientList() in /Applications/MAMP/htdocs/HealthCareSystem/index.php on line 256
 [13-Jul-2015 21:50:51 Europe/Berlin] PHP Fatal error:  Call to undefined method PatientData::getPatientList() in /Applications/MAMP/htdocs/HealthCareSystem/index.php on line 256
 [13-Jul-2015 22:19:57 Europe/Berlin] PHP Fatal error:  Undefined class constant 'FETCH_ALL' in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 70
+[13-Jul-2015 22:23:32 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:23:33 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:23:34 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:23:34 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:23:34 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:23:34 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:23:46 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:23:47 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:23:47 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:24:02 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:24:02 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
+[13-Jul-2015 22:24:03 Europe/Berlin] PHP Fatal error:  Cannot pass parameter 2 by reference in /Applications/MAMP/htdocs/HealthCareSystem/Business/PatientData.php on line 68
